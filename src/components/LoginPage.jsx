@@ -1,5 +1,6 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
+import SignupPage from "./SignupPage";
 const LoginPage = () => {
   const [input, setInput] = useState({
     username: "",
@@ -18,6 +19,10 @@ const LoginPage = () => {
     // }else{
 
     // }
+  };
+  const navigate = useNavigate();
+  const handleSignup = () => {
+    navigate("/sign-up");
   };
   return (
     <div
@@ -43,7 +48,7 @@ const LoginPage = () => {
             type="text"
             placeholder="Email address or Phone number"
             name="username"
-            value={input.username}
+            value={input?.username}
             onChange={handleOnchange}
             className="p-3 border-[1px] border-solid border-gray-200 shadow-md rounded mb-[10px] 
             placeholder:text-[16px] focus:outline-1 focus:outline-blue-600"
@@ -52,6 +57,9 @@ const LoginPage = () => {
           <input
             type="text"
             placeholder="Password"
+            name="password"
+            value={input?.password}
+            onChange={handleOnchange}
             className="p-3 border-[1px] border-solid border-gray-200 shadow-md rounded mb-[10px] placeholder:text-10 
             focus:outline-1 focus:outline-blue-600"
             required
@@ -65,7 +73,10 @@ const LoginPage = () => {
           >
             Forgotten Password?
           </a>
-          <button className="bg-green-500 text-center mt-10 w-[60%] m-auto p-3 text-white font-bold text-14 rounded">
+          <button
+            onClick={handleSignup}
+            className="bg-green-500 text-center mt-10 w-[60%] m-auto p-3 text-white font-bold text-14 rounded"
+          >
             Create Account
           </button>
         </form>
