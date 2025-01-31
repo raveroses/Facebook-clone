@@ -1,11 +1,15 @@
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
-import SignupPage from "./components/SignupPage";
+import LoginPage from "./components/LoginPage";
 
 function App() {
   return (
-    <>
-      <SignupPage />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="login" element={<LoginPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
