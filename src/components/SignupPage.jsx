@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
+import useFetch from "./API/UseFetch";
+import Custom from "./API/Custom";
 export default function SignupPage() {
   const shortMonths = [
     "Jan",
@@ -105,7 +107,9 @@ export default function SignupPage() {
 
   const [formcollection, setFormCollection] = useState(() => {
     const RetrieveValues = localStorage.getItem("saves");
-    const converter = RetrieveValues ? JSON.parse(RetrieveValues) : {};
+    const converter = RetrieveValues
+      ? JSON.parse(RetrieveValues)
+      : { firstname: "", surname: "", custom: "", email: "", password: "" };
     return converter;
   });
   const handleFormCollection = (e) => {
@@ -167,6 +171,11 @@ export default function SignupPage() {
   //   console.log(arrowdown.YearArrow);
   //   console.log(dateOfBirth);
   console.log(formcollection);
+
+  const { data, loading, error, handlePost, handleGet, handlePut } =
+    useFetch(Custom);
+
+  console.log(data, loading, error, handlePost, handleGet, handlePut);
   return (
     <div className="bg-gray-100 w-full flex justify-center flex-col items-center ">
       <div>
@@ -190,7 +199,7 @@ export default function SignupPage() {
               placeholder="First name"
               className="border-1 border-solid border-gray-400 p-2 placeholder:text-[17px] rounded"
               name="firstname"
-              value={formcollection.firstname}
+              value={formcollection?.firstname}
               onChange={handleFormCollection}
             />
             <input
@@ -198,7 +207,7 @@ export default function SignupPage() {
               placeholder="Surname"
               className="border-1 border-solid border-gray-400 p-2 placeholder:text-[17px] rounded"
               name="surname"
-              value={formcollection.surname}
+              value={formcollection?.surname}
               onChange={handleFormCollection}
             />
           </div>
@@ -243,21 +252,21 @@ export default function SignupPage() {
             <div className="relative">
               <div
                 className={`bg-white shadow-xl w-[120px] h-[300px] pb-3 overflow-y-scroll ${
-                  arrowdown.DayArrow ? "block" : "hidden"
+                  arrowdown?.DayArrow ? "block" : "hidden"
                 } absolute top-[0px] z-9`}
               >
                 {listDate}
               </div>
               <div
                 className={`bg-white shadow-xl w-[120px]  h-[300px] pb-3 overflow-y-scroll absolute left-[290px] top-0 ${
-                  arrowdown.MonthArrow ? "block" : "hidden"
+                  arrowdown?.MonthArrow ? "block" : "hidden"
                 } `}
               >
                 {month}
               </div>
               <div
                 className={`bg-white shadow-xl w-[120px] h-[300px] pb-3 overflow-y-scroll absolute left-[150px] top-0 ${
-                  arrowdown.YearArrow ? "block" : "hidden"
+                  arrowdown?.YearArrow ? "block" : "hidden"
                 }`}
               >
                 {years}
@@ -309,16 +318,25 @@ export default function SignupPage() {
                   gender === "Custom" ? "block" : "hidden"
                 }
               `}
+                name="custom"
+                value={formcollection?.custom}
+                onChange={handleFormCollection}
               />
               <input
                 type="text"
                 placeholder="Mobile number or Email address"
                 className="p-[8px] rounded border-1 border-solid border-gray-500"
+                name="email"
+                value={formcollection?.email}
+                onChange={handleFormCollection}
               />
               <input
                 type="text"
                 placeholder="New Password"
                 className="p-[8px] rounded border-1 border-solid border-gray-500 mt-3"
+                name="password"
+                value={formcollection?.password}
+                onChange={handleFormCollection}
               />
             </div>
           </div>
