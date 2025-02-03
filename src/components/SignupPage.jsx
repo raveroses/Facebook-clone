@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import useFetch from "./API/UseFetch";
@@ -63,7 +63,7 @@ export default function SignupPage() {
     });
   };
 
-  const month = shortMonths.map((element, index) => {
+  const months = shortMonths.map((element, index) => {
     return (
       <ul key={index}>
         <li
@@ -133,7 +133,7 @@ export default function SignupPage() {
       YearArrow: false,
       MonthArrow: false,
     }));
-    console.log("DAY IS CLICKED");
+    // console.log("DAY IS CLICKED");
   };
   const handleMonthArrowDown = () => {
     setArrowDown((prev) => ({
@@ -142,7 +142,7 @@ export default function SignupPage() {
       YearArrow: false,
       DayArrow: false,
     }));
-    console.log("MONTH IS CLICKED");
+    // console.log("MONTH IS CLICKED");
   };
   const handleYearArrowDown = () => {
     setArrowDown((prev) => ({
@@ -151,7 +151,7 @@ export default function SignupPage() {
       DayArrow: false,
       MonthArrow: false,
     }));
-    console.log("YEAR IS CLICKED");
+    // console.log("YEAR IS CLICKED");
   };
 
   const [gender, SetGender] = useState(() => {
@@ -166,16 +166,49 @@ export default function SignupPage() {
       return genderSaved;
     });
   };
-  console.log(gender);
+  //   console.log(gender);
 
   //   console.log(arrowdown.YearArrow);
   //   console.log(dateOfBirth);
-  console.log(formcollection);
+  //   console.log(formcollection);
 
   const { data, loading, error, handlePost, handleGet, handlePut } =
     useFetch(Custom);
+  console.log(Custom);
+  //   console.log(data, loading, error, handlePost, handleGet, handlePut);
 
-  console.log(data, loading, error, handlePost, handleGet, handlePut);
+  const handleValidation = () => {
+    const { custom, email, firstname, password, surname } = formcollection;
+    const { day, month, year } = dateOfBirth;
+    if (!custom || !email || !firstname || !password || !surname) {
+      return;
+    }
+    if (!gender) {
+      return;
+    }
+
+    if (!day || !month || !year) {
+      return;
+    }
+    return true;
+  };
+
+  const handleSubmission = (e) => {
+    e.preventDefault();
+    if (handleValidation()) {
+      const { email, firstname, password } = formcollection;
+      handlePost(firstname, password, email);
+    }
+
+    console.log("m submitted");
+  };
+
+  useEffect(() => {
+    console.log(handleGet(1));
+  }, []);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   return (
     <div className="bg-gray-100 w-full flex justify-center flex-col items-center ">
       <div>
@@ -192,7 +225,7 @@ export default function SignupPage() {
             It's quick and easy.
           </p>
         </div>
-        <form className="p-5">
+        <form onSubmit={handleSubmission} className="p-5">
           <div className="flex gap-2 flex-row">
             <input
               type="text"
@@ -262,7 +295,7 @@ export default function SignupPage() {
                   arrowdown?.MonthArrow ? "block" : "hidden"
                 } `}
               >
-                {month}
+                {months}
               </div>
               <div
                 className={`bg-white shadow-xl w-[120px] h-[300px] pb-3 overflow-y-scroll absolute left-[150px] top-0 ${

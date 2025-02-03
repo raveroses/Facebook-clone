@@ -7,7 +7,7 @@ const useFetch = (Customs) => {
   const handlePost = async (username, password, email) => {
     setLoading(true);
     try {
-      const response = await Customs.post("/title", {
+      const response = await Customs.post("posts", {
         username,
         password,
         email,
@@ -18,17 +18,17 @@ const useFetch = (Customs) => {
     }
   };
 
-  const handleGet = async () => {
+  const handleGet = async (postId) => {
     try {
-      const response = await Customs.get("title");
+      const response = await Customs.get(`posts/${postId}`);
       setData(response.data);
     } catch (err) {
       console.log(err.message);
     }
   };
-  const handlePut = async (username, password, email) => {
+  const handlePut = async (postId, username, password, email) => {
     try {
-      const response = await Customs.put("title", {
+      const response = await Customs.put(`posts/${postId}`, {
         username,
         password,
         email,

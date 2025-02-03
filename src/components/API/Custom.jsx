@@ -1,8 +1,8 @@
 import axios from "axios";
 const Custom = axios.create({
-  baseURL: "https://jsonplaceholder.typicode.com/",
+  baseURL: "https://jsonplaceholder.typicode.com",
   headers: {
-    "Content-Type": "application/json",
+    "Content-type": "application/json; charset=UTF-8",
   },
 });
 
